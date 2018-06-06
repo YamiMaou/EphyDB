@@ -32,8 +32,7 @@ class EphyDB
      */
     public function insert($table, $data)
     {
-        $insert = new Insert($this->pdo, $table, $data);
-        return $insert;
+        return new Insert($this->pdo, $table, $data);;
     }
 
     public function execute(Preparable $prepare) {
