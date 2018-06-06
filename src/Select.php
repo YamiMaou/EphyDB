@@ -2,14 +2,22 @@
 
 namespace EphyDB;
 
-class Select
+class Select implements Preparable
 {
     private $columns = [];
     private $from = null;
     private $limit = null;
     private $group = null;
     private $order = null;
+
+    /**
+     * @var string
+     */
     private $query;
+
+    /**
+     * @var \PDO
+     */
     private $pdo;
 
     use Where;
@@ -141,17 +149,20 @@ class Select
             $this->order = ' ORDER BY ' . $fields . ' ' . $order;
         }
 
-
         return $this;
     }
 
-
-
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->query;
     }
 
+    /**
+     * @return \PDOStatement
+     */
     public function prepare()
     {
         $query = "SELECT ";
