@@ -26,8 +26,18 @@ class EphyDB
         return new Select($this->pdo);
     }
 
-    public function execute(Select $select) {
-        $stmt = $select->prepare();
+    /**
+     * @param string $table
+     * @param array $data
+     */
+    public function insert($table, $data)
+    {
+        $insert = new Insert($this->pdo, $table, $data);
+        return $insert;
+    }
+
+    public function execute(Preparable $prepare) {
+        $stmt = $prepare->prepare();
         $stmt->execute();
         return $stmt;
     }
@@ -62,5 +72,4 @@ class EphyDB
             }
         }
     }
-
 }
