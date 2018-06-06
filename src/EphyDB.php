@@ -35,6 +35,11 @@ class EphyDB
         return new Insert($this->pdo, $table, $data);;
     }
 
+    public function delete($table)
+    {
+        return new Delete($this->pdo, $table);;
+    }
+
     public function execute(Preparable $prepare) {
         $stmt = $prepare->prepare();
         $stmt->execute();
