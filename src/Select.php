@@ -175,12 +175,7 @@ class Select implements Preparable
         $this->query = $query;
 
         $stmt = $this->pdo->prepare($this->query);
-
-        if (count($this->values) > 0) {
-            foreach ($this->values as $key => $value) {
-                $stmt->bindValue($key+1, $value, $this->types[$key]);
-            }
-        }
+        $this->bindValues($stmt);
 
         return $stmt;
     }

@@ -85,4 +85,16 @@ trait Where
             $this->types[] = $type;
         }
     }
+
+    /**
+     * @param \PDOStatement $stmt
+     */
+    protected function bindValues(\PDOStatement $stmt)
+    {
+        if (count($this->values) > 0) {
+            foreach ($this->values as $key => $value) {
+                $stmt->bindValue($key+1, $value, $this->types[$key]);
+            }
+        }
+    }
 }
