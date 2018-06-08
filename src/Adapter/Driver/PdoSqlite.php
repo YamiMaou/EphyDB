@@ -2,10 +2,8 @@
 
 namespace EphyDB\Adapter\Driver;
 
-class PdoSqlite implements DriverInterface
+class PdoSqlite extends PdoAbstractDriver implements DriverInterface
 {
-    private $driver = null;
-
     public function __construct(array $arrayConfig)
     {
         if (! isset($arrayConfig['database']) && !empty($arrayConfig['database'])) {
@@ -13,10 +11,5 @@ class PdoSqlite implements DriverInterface
         }
 
         $this->driver = "sqlite:".$arrayConfig['database'];
-    }
-
-    public function getDriver()
-    {
-        return $this->driver;
     }
 }
