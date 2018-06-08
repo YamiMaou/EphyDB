@@ -9,6 +9,7 @@ class Select implements Preparable
     private $limit = null;
     private $group = null;
     private $order = null;
+    private $having = null;
 
     /**
      * @var string
@@ -40,6 +41,9 @@ class Select implements Preparable
         if (count($this->columns) > 0) {
             $columns = '';
             foreach ($this->columns as $key => $value) {
+
+                $value = ($value instanceof Select) ? '('.$value.')' : $value;
+
                 $columns .= (! is_int($key))
                     ? sprintf('%s AS %s, ', $value, $key)
                     : sprintf('%s, ', $value);
@@ -55,7 +59,7 @@ class Select implements Preparable
      * @param array $columns
      * @return Select
      */
-    public function setColumns(array $columns)
+    public function columns(array $columns)
     {
         $this->columns = $columns;
         return $this;
@@ -73,7 +77,7 @@ class Select implements Preparable
      * @param mixed $from
      * @return Select
      */
-    public function setFrom($from)
+    public function from($from)
     {
         $this->from = $from;
         return $this;
@@ -91,7 +95,7 @@ class Select implements Preparable
      * @param mixed $limit
      * @return Select
      */
-    public function setLimit($limit)
+    public function limit($limit)
     {
         $this->limit = $limit;
         return $this;
@@ -109,7 +113,7 @@ class Select implements Preparable
      * @param string|array $group
      * @return Select
      */
-    public function setGroup($group)
+    public function group($group)
     {
         $this->group = (is_array($group)) ? implode(',', $group) : $group;
         return $this;
@@ -128,7 +132,7 @@ class Select implements Preparable
      * @param string|array $order
      * @return Select
      */
-    public function setOrder($fields, $order = 'ASC')
+    public function order($fields, $order = 'ASC')
     {
         if (is_array($fields) && is_array($order)) {
 
@@ -155,6 +159,26 @@ class Select implements Preparable
     /**
      * @return string
      */
+    public function getHaving()
+    {
+        return $this->having;
+    }
+
+    /**
+     * @param string $condition
+     * @return Select
+     */
+    public function having($condition)
+    {
+        $this->having = $condition;
+        return $this;
+    }
+
+
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->query;
@@ -168,8 +192,9 @@ class Select implements Preparable
         $query = "SELECT ";
         $query .= $this->getColumnsToString();
         $query .= ' FROM '.$this->getFrom();
-        $query .= (!is_null($this->getGroup())) ? ' GROUP BY '.$this->getGroup() : '';
         $query .= (!is_null($this->where)) ? $this->where : '';
+        $query .= (!is_null($this->getGroup())) ? ' GROUP BY '.$this->getGroup() : '';
+        $query .= (!is_null($this->getHaving())) ? ' HAVING '.$this->getHaving() : '';
         $query .= (!is_null($this->getOrder())) ? $this->getOrder() : '';
         $query .= (!is_null($this->getLimit())) ? ' LIMIT '.$this->getLimit() : '';
         $this->query = $query;
