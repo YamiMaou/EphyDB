@@ -57,11 +57,7 @@ class Insert implements Preparable
 
     public function prepare()
     {
-        $fields = '';
-
-        foreach ($this->data as $key => $value) {
-            $fields .= $key.', ';
-        }
+        $fields = implode(', ', array_keys($this->data));
 
         $values = rtrim(str_repeat('?,', count($this->data)), ',');
         $fields = rtrim($fields, ', ');
