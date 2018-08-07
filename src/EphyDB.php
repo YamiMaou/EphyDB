@@ -32,7 +32,12 @@ class EphyDB
      */
     public function insert($table, $data)
     {
-        return new Insert($this->pdo, $table, $data);;
+        return new Insert($this->pdo, $table, $data);
+    }
+
+    public function update($table, $data, $where)
+    {
+        return new Update($this->pdo, $table, $data, $where);
     }
 
     public function delete($table)
