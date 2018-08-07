@@ -35,14 +35,14 @@ class EphyDB
         return new Insert($this->pdo, $table, $data);
     }
 
-    public function update($table, $data, $where)
+    public function update($table, $data)
     {
-        return new Update($this->pdo, $table, $data, $where);
+        return new Update($this->pdo, $table, $data);
     }
 
     public function delete($table)
     {
-        return new Delete($this->pdo, $table);;
+        return new Delete($this->pdo, $table);
     }
 
     public function execute(Preparable $prepare) {
