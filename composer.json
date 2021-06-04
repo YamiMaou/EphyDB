@@ -1,5 +1,5 @@
 {
-"name": "reginaldo/EphyDB",
+  "name": "reginaldo/ephydb",
     "description": "ADAPTADOR DE BANCO DE DADOS PHP",
   "autoload": {
     "psr-4": {
